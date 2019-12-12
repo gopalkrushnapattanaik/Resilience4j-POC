@@ -10,3 +10,5 @@ Resilience4j comes with features like Rate Limiter, Retry and Bulkhead along wit
 
 Resilience4j works well with spring boot and using micrometer libraries, it can emit metrics for monitoring.
 There is no replacement introduced by Spring for Hystrix Dashboard so users need to use prometheus or NewRelic for monitoring.
+
+For more visit https://resilience4j.readme.io/docs

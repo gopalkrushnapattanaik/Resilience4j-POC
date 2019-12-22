@@ -36,7 +36,24 @@ resilience4j.circuitbreaker:
             failureRateThreshold: 50
             eventConsumerBufferSize: 10
     instances:
-        EmployeeService:
+        EmployeeService_AddEmployee:
+            registerHealthIndicator: true
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 10
+            permittedNumberOfCallsInHalfOpenState: 3
+            waitDurationInOpenState: 1s
+            failureRateThreshold: 50
+            eventConsumerBufferSize: 10
+        EmployeeService_getEmpByName:
+            registerHealthIndicator: true
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 10
+            permittedNumberOfCallsInHalfOpenState: 3
+            waitDurationInOpenState: 1s
+            failureRateThreshold: 50
+            eventConsumerBufferSize: 10
+         
+        EmployeeService_GetEmployees:
             registerHealthIndicator: true
             slidingWindowSize: 10
             minimumNumberOfCalls: 10
@@ -53,16 +70,26 @@ resilience4j.retry:
                 - org.springframework.web.client.HttpServerErrorException
                 - java.io.IOException
     instances:
-        EmployeeService:
+        EmployeeService_AddEmployee:
+            maxRetryAttempts: 3
+        EmployeeService_GetEmployees:
+            maxRetryAttempts: 3
+        EmployeeService_getEmpByName:
             maxRetryAttempts: 3
 resilience4j.bulkhead:
     configs:
         default:
             maxConcurrentCalls: 100
     instances:
-        EmployeeService:
+        EmployeeService_AddEmployee:
             maxWaitDuration: 10ms
             maxConcurrentCalls: 10
+        EmployeeService_GetEmployees:
+            maxWaitDuration: 10ms
+            maxConcurrentCalls: 20
+        EmployeeService_getEmpByName:
+            maxWaitDuration: 10ms
+            maxConcurrentCalls: 15
 
 resilience4j.thread-pool-bulkhead:
     configs:
@@ -71,10 +98,18 @@ resilience4j.thread-pool-bulkhead:
             coreThreadPoolSize: 2
             queueCapacity: 2
     instances:
-        EmployeeService:
-            maxThreadPoolSize: 5
-            coreThreadPoolSize: 1
-            queueCapacity: 1
+        EmployeeService_AddEmployee:
+            maxThreadPoolSize: 15
+            coreThreadPoolSize: 2
+            queueCapacity: 5
+        EmployeeService_GetEmployees:
+            maxThreadPoolSize: 15
+            coreThreadPoolSize: 2
+            queueCapacity: 5
+        EmployeeService_getEmpByName:
+            maxThreadPoolSize: 15
+            coreThreadPoolSize: 2
+            queueCapacity: 5
 
 resilience4j.ratelimiter:
     configs:
@@ -85,7 +120,15 @@ resilience4j.ratelimiter:
             timeoutDuration: 0
             eventConsumerBufferSize: 100
     instances:
-        EmployeeService:
+        EmployeeService_AddEmployee:
+            limitForPeriod: 6
+            limitRefreshPeriod: 500ms
+            timeoutDuration: 3s
+        EmployeeService_GetEmployees:
+            limitForPeriod: 6
+            limitRefreshPeriod: 500ms
+            timeoutDuration: 3s
+        EmployeeService_getEmpByName:
             limitForPeriod: 6
             limitRefreshPeriod: 500ms
             timeoutDuration: 3s

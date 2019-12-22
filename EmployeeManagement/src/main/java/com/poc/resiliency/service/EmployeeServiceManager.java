@@ -25,10 +25,10 @@ public class EmployeeServiceManager {
 
 	private final String URL = "http://localhost:8080/employee/";
 
-	@CircuitBreaker(name = "EmployeeService", fallbackMethod = "addEmployeefallBack")
-	@Bulkhead(name = "EmployeeService", type = Type.THREADPOOL)
-	@RateLimiter(name = "EmployeeService")
-	@Retry(name = "EmployeeService", fallbackMethod = "addEmployeefallBack")
+	@CircuitBreaker(name = "EmployeeService_AddEmployee", fallbackMethod = "addEmployeefallBack")
+	@Bulkhead(name = "EmployeeService_AddEmployee", type = Type.THREADPOOL)
+	@RateLimiter(name = "EmployeeService_AddEmployee")
+	@Retry(name = "EmployeeService_AddEmployee", fallbackMethod = "addEmployeefallBack")
 	public CompletableFuture<Employee> addEmployee(Employee employee) {
 
 		logger.info("addEmployee ::");
@@ -40,10 +40,10 @@ public class EmployeeServiceManager {
 
 	}
 
-	@CircuitBreaker(name = "EmployeeService", fallbackMethod = "getEmployeesFallBack")
-	@Bulkhead(name = "EmployeeService", type = Type.THREADPOOL)
-	@RateLimiter(name = "EmployeeService")
-	@Retry(name = "EmployeeService", fallbackMethod = "getEmployeesFallBack")
+	@CircuitBreaker(name = "EmployeeService_GetEmployees", fallbackMethod = "getEmployeesFallBack")
+	@Bulkhead(name = "EmployeeService_GetEmployees", type = Type.THREADPOOL)
+	@RateLimiter(name = "EmployeeService_GetEmployees")
+	@Retry(name = "EmployeeService_GetEmployees", fallbackMethod = "getEmployeesFallBack")
 	public CompletableFuture<List<Employee>> getEmployees() {
 
 		logger.info("getEmployees ::");
@@ -54,10 +54,10 @@ public class EmployeeServiceManager {
 		return future;
 	}
 
-	@CircuitBreaker(name = "EmployeeService", fallbackMethod = "getEmployeesByNameFallBack")
-	@Bulkhead(name = "EmployeeService", type = Type.THREADPOOL)
-	@RateLimiter(name = "EmployeeService")
-	@Retry(name = "EmployeeService", fallbackMethod = "getEmployeesByNameFallBack")
+	@CircuitBreaker(name = "EmployeeService_getEmpByName", fallbackMethod = "getEmployeesByNameFallBack")
+	@Bulkhead(name = "EmployeeService_getEmpByName", type = Type.THREADPOOL)
+	@RateLimiter(name = "EmployeeService_getEmpByName")
+	@Retry(name = "EmployeeService_getEmpByName", fallbackMethod = "getEmployeesByNameFallBack")
 	public CompletableFuture<List<Employee>> getEmployeesByName(String name) {
 
 		logger.info("getEmployeesByName ::");

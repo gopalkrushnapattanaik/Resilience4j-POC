@@ -250,7 +250,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "resilience4j_circuitbreaker_state{instance=~\"$instance\"}",
+          "expr": "resilience4j_circuitbreaker_state{instance=\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ name }}: {{ state }}",
@@ -399,8 +399,8 @@
       "scopedVars": {
         "circuitbreaker_name": {
           "selected": true,
-          "text": "EmployeeService",
-          "value": "EmployeeService"
+          "text": "backendA",
+          "value": "backendA"
         }
       },
       "title": "CircuitBreaker",
@@ -465,8 +465,8 @@
       "scopedVars": {
         "circuitbreaker_name": {
           "selected": true,
-          "text": "EmployeeService",
-          "value": "EmployeeService"
+          "text": "backendA",
+          "value": "backendA"
         }
       },
       "sparkline": {
@@ -478,7 +478,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "resilience4j_circuitbreaker_failure_rate{instance=~\"$instance\",name=~\"$circuitbreaker_name\"}",
+          "expr": "resilience4j_circuitbreaker_failure_rate{instance=\"$instance\",name=\"$circuitbreaker_name\"}",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -549,8 +549,8 @@
       "scopedVars": {
         "circuitbreaker_name": {
           "selected": true,
-          "text": "EmployeeService",
-          "value": "EmployeeService"
+          "text": "backendA",
+          "value": "backendA"
         }
       },
       "seriesOverrides": [],
@@ -559,7 +559,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(resilience4j_circuitbreaker_calls_seconds_count{instance=~\"$instance\",name=~\"$circuitbreaker_name\"}[1m])",
+          "expr": "rate(resilience4j_circuitbreaker_calls_seconds_count{instance=\"$instance\",name=\"$circuitbreaker_name\"}[1m])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -567,7 +567,7 @@
           "refId": "A"
         },
         {
-          "expr": "rate(resilience4j_circuitbreaker_calls_total{instance=~\"$instance\",name=~\"$circuitbreaker_name\"}[1m])",
+          "expr": "rate(resilience4j_circuitbreaker_calls_total{instance=\"$instance\",name=\"$circuitbreaker_name\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ kind  }} ",
@@ -658,8 +658,8 @@
       "scopedVars": {
         "circuitbreaker_name": {
           "selected": true,
-          "text": "EmployeeService",
-          "value": "EmployeeService"
+          "text": "backendA",
+          "value": "backendA"
         }
       },
       "seriesOverrides": [],
@@ -668,14 +668,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "resilience4j_circuitbreaker_buffered_calls{instance=~\"$instance\",name=~\"$circuitbreaker_name\"}",
+          "expr": "resilience4j_circuitbreaker_buffered_calls{instance=\"$instance\",name=\"$circuitbreaker_name\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ kind }}",
           "refId": "A"
         },
         {
-          "expr": "resilience4j_circuitbreaker_max_buffered_calls{instance=~\"$instance\",name=~\"$circuitbreaker_name\"}",
+          "expr": "resilience4j_circuitbreaker_max_buffered_calls{instance=\"$instance\",name=\"$circuitbreaker_name\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "maximum",
@@ -761,8 +761,8 @@
       "scopedVars": {
         "circuitbreaker_name": {
           "selected": true,
-          "text": "EmployeeService",
-          "value": "EmployeeService"
+          "text": "backendA",
+          "value": "backendA"
         }
       },
       "seriesOverrides": [],
@@ -771,7 +771,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(0.9, sum(rate(resilience4j_circuitbreaker_calls_seconds_bucket{application=~\"$application\", instance=~\"$instance\", name=~\"$circuitbreaker_name\"}[1m])) by (le))",
+          "expr": "histogram_quantile(0.9, sum(rate(resilience4j_circuitbreaker_calls_seconds_bucket{application=\"$application\", instance=\"$instance\", name=\"$circuitbreaker_name\"}[1m])) by (le))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -779,21 +779,21 @@
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.95, sum(rate(resilience4j_circuitbreaker_calls_seconds_bucket{application=~\"$application\", instance=~\"$instance\", name=~\"$circuitbreaker_name\"}[1m])) by (le))",
+          "expr": "histogram_quantile(0.95, sum(rate(resilience4j_circuitbreaker_calls_seconds_bucket{application=\"$application\", instance=\"$instance\", name=\"$circuitbreaker_name\"}[1m])) by (le))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "95th Percentile",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.98, sum(rate(resilience4j_circuitbreaker_calls_seconds_bucket{application=~\"$application\", instance=~\"$instance\", name=~\"$circuitbreaker_name\"}[1m])) by (le))",
+          "expr": "histogram_quantile(0.98, sum(rate(resilience4j_circuitbreaker_calls_seconds_bucket{application=\"$application\", instance=\"$instance\", name=\"$circuitbreaker_name\"}[1m])) by (le))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "98th Percentile",
           "refId": "C"
         },
         {
-          "expr": "histogram_quantile(0.50, sum(rate(resilience4j_circuitbreaker_calls_seconds_bucket{application=~\"$application\", instance=~\"$instance\", name=~\"$circuitbreaker_name\"}[1m])) by (le))",
+          "expr": "histogram_quantile(0.50, sum(rate(resilience4j_circuitbreaker_calls_seconds_bucket{application=\"$application\", instance=\"$instance\", name=\"$circuitbreaker_name\"}[1m])) by (le))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Median",
@@ -882,8 +882,8 @@
       "scopedVars": {
         "circuitbreaker_name": {
           "selected": true,
-          "text": "EmployeeService",
-          "value": "EmployeeService"
+          "text": "backendA",
+          "value": "backendA"
         }
       },
       "seriesOverrides": [],
@@ -892,14 +892,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "increase(resilience4j_circuitbreaker_calls_seconds_sum{instance=~\"$instance\",name=~\"$circuitbreaker_name\"}[1m]) / increase(resilience4j_circuitbreaker_calls_seconds_count{instance=~\"$instance\",name=~\"$circuitbreaker_name\"}[1m])",
+          "expr": "increase(resilience4j_circuitbreaker_calls_seconds_sum{instance=\"$instance\",name=\"$circuitbreaker_name\"}[1m]) / increase(resilience4j_circuitbreaker_calls_seconds_count{instance=\"$instance\",name=\"$circuitbreaker_name\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ kind }}",
           "refId": "A"
         },
         {
-          "expr": "sum(increase(resilience4j_circuitbreaker_calls_seconds_sum{instance=~\"$instance\",name=~\"$circuitbreaker_name\"}[1m])) / sum(increase(resilience4j_circuitbreaker_calls_seconds_count{instance=~\"$instance\",name=~\"$circuitbreaker_name\"}[1m]))",
+          "expr": "sum(increase(resilience4j_circuitbreaker_calls_seconds_sum{instance=\"$instance\",name=\"$circuitbreaker_name\"}[1m])) / sum(increase(resilience4j_circuitbreaker_calls_seconds_count{instance=\"$instance\",name=\"$circuitbreaker_name\"}[1m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "total ",
@@ -961,8 +961,8 @@
       "scopedVars": {
         "retry_name": {
           "selected": true,
-          "text": "EmployeeService",
-          "value": "EmployeeService"
+          "text": "backendA",
+          "value": "backendA"
         }
       },
       "title": "Retry",
@@ -1009,8 +1009,8 @@
       "scopedVars": {
         "retry_name": {
           "selected": true,
-          "text": "EmployeeService",
-          "value": "EmployeeService"
+          "text": "backendA",
+          "value": "backendA"
         }
       },
       "seriesOverrides": [],
@@ -1019,7 +1019,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(resilience4j_retry_calls{application=~\"$application\",name=~\"$retry_name\",}[1m])",
+          "expr": "rate(resilience4j_retry_calls{application=\"$application\",name=\"$retry_name\",}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ kind }}",
@@ -1081,8 +1081,8 @@
       "scopedVars": {
         "bulkhead_name": {
           "selected": true,
-          "text": "EmployeeService",
-          "value": "EmployeeService"
+          "text": "backendA",
+          "value": "backendA"
         }
       },
       "title": "Bulkhead",
@@ -1124,8 +1124,8 @@
       "scopedVars": {
         "bulkhead_name": {
           "selected": true,
-          "text": "EmployeeService",
-          "value": "EmployeeService"
+          "text": "backendA",
+          "value": "backendA"
         }
       },
       "seriesOverrides": [],
@@ -1134,14 +1134,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "resilience4j_bulkhead_available_concurrent_calls{application=~\"$application\",name=~\"$bulkhead_name\"}",
+          "expr": "resilience4j_bulkhead_available_concurrent_calls{application=\"$application\",name=\"$bulkhead_name\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Available Calls",
           "refId": "A"
         },
         {
-          "expr": "resilience4j_bulkhead_max_allowed_concurrent_calls{application=~\"$application\",name=~\"$bulkhead_name\"}",
+          "expr": "resilience4j_bulkhead_max_allowed_concurrent_calls{application=\"$application\",name=\"$bulkhead_name\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Max allowed Calls",
@@ -1224,9 +1224,9 @@
       {
         "allValue": null,
         "current": {
-          "text": "localhost:8090",
+          "text": "localhost:9080",
           "value": [
-            "localhost:8090"
+            "localhost:9080"
           ]
         },
         "datasource": "Prometheus",
@@ -1244,8 +1244,8 @@
           },
           {
             "selected": true,
-            "text": "localhost:8090",
-            "value": "localhost:8090"
+            "text": "localhost:9080",
+            "value": "localhost:9080"
           }
         ],
         "query": "label_values(resilience4j_circuitbreaker_state, instance)",
@@ -1262,8 +1262,8 @@
       {
         "allValue": null,
         "current": {
-          "text": "EmployeeService",
-          "value": "EmployeeService"
+          "text": "backendA",
+          "value": "backendA"
         },
         "datasource": "Prometheus",
         "definition": "label_values(resilience4j_circuitbreaker_state, name)",
@@ -1288,9 +1288,9 @@
         "allValue": null,
         "current": {
           "tags": [],
-          "text": "EmployeeService",
+          "text": "backendA",
           "value": [
-            "EmployeeService"
+            "backendA"
           ]
         },
         "datasource": "Prometheus",
@@ -1315,8 +1315,8 @@
       {
         "allValue": null,
         "current": {
-          "text": "EmployeeService",
-          "value": "EmployeeService"
+          "text": "backendA",
+          "value": "backendA"
         },
         "datasource": "Prometheus",
         "definition": "label_values(resilience4j_bulkhead_available_concurrent_calls, name)",

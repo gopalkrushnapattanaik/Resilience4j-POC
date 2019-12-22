@@ -1,43 +1,29 @@
 package com.poc.resiliency.service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import com.poc.resiliency.model.Employee;
 
-@RestController
-@RequestMapping("/employee/manage")
+@Service
 public class EmployeeService {
 
-	Logger logger = LoggerFactory.getLogger(EmployeeService.class);
-
 	@Autowired
-	private EmployeeServiceManager employeeService;
+	private EmployeeServiceManager employeeServiceManager;
 
-	@GetMapping(value = "/get")
-	public List<Employee> getEmployees() {
-		logger.info("getEmployees :::::::");
-
-		return employeeService.getEmployees();
-	}
-
-	@GetMapping(value = "/get/name")
-	public List<Employee> getEmployeesByName(String name) {
-		logger.info("getEmployeesByName :::::::");
-
-		return employeeService.getEmployeesByName(name);
-	}
-	
-	public Employee addEmployee(@RequestBody Employee emp ) {
+	public CompletableFuture<List<Employee>> getEmployees() {
 		
-		return employeeService.addEmployee(emp);
+		return employeeServiceManager.getEmployees();
 	}
 
+	public CompletableFuture<List<Employee>> getEmployeesByName(String name) {
+		return employeeServiceManager.getEmployeesByName(name);
+	}
+
+	public CompletableFuture<Employee> addEmployee(Employee emp) {
+		return employeeServiceManager.addEmployee(emp);
+	}
 }

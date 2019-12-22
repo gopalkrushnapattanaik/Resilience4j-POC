@@ -1,17 +1,19 @@
 package com.poc.resiliency.service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.poc.resiliency.model.Employee;
 
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead.Type;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 
 @Service
@@ -23,61 +25,70 @@ public class EmployeeServiceManager {
 
 	private final String URL = "http://localhost:8080/employee/";
 
-	@CircuitBreaker(name = "addEmployee", fallbackMethod = "addEmployeefallBack")
-	public Employee addEmployee(Employee employee) {
+	@CircuitBreaker(name = "EmployeeService", fallbackMethod = "addEmployeefallBack")
+	@Bulkhead(name = "EmployeeService", type = Type.THREADPOOL)
+	@RateLimiter(name = "EmployeeService")
+	@Retry(name = "EmployeeService", fallbackMethod = "addEmployeefallBack")
+	public CompletableFuture<Employee> addEmployee(Employee employee) {
 
 		logger.info("addEmployee ::");
 
-		ResponseEntity<Employee> response = restTemplate.postForEntity(URL + "/add", employee, Employee.class);
+		CompletableFuture<Employee> future = CompletableFuture
+				.supplyAsync(() -> restTemplate.postForEntity(URL + "/add", employee, Employee.class).getBody());
 
-		return response.getBody();
+		return future;
 
 	}
 
-	@Retry(name = "getEmployees", fallbackMethod = "getEmployeesFallBack")
-	public List<Employee> getEmployees() {
+	@CircuitBreaker(name = "EmployeeService", fallbackMethod = "getEmployeesFallBack")
+	@Bulkhead(name = "EmployeeService", type = Type.THREADPOOL)
+	@RateLimiter(name = "EmployeeService")
+	@Retry(name = "EmployeeService", fallbackMethod = "getEmployeesFallBack")
+	public CompletableFuture<List<Employee>> getEmployees() {
 
-		ResponseEntity<List> response = restTemplate.getForEntity(URL, List.class);
-		List<Employee> employees = response.getBody();
+		logger.info("getEmployees ::");
 
-		logger.info("getEmployees ::" + employees);
-		return employees;
+		CompletableFuture<List<Employee>> future = CompletableFuture
+				.supplyAsync(() -> restTemplate.getForEntity(URL, List.class).getBody());
+
+		return future;
 	}
 
-	@Bulkhead(name = "getEmployeesByName", type = Bulkhead.Type.SEMAPHORE, fallbackMethod = "getEmployeesByNameFallBack")
-	public List<Employee> getEmployeesByName(String name) {
+	@CircuitBreaker(name = "EmployeeService", fallbackMethod = "getEmployeesByNameFallBack")
+	@Bulkhead(name = "EmployeeService", type = Type.THREADPOOL)
+	@RateLimiter(name = "EmployeeService")
+	@Retry(name = "EmployeeService", fallbackMethod = "getEmployeesByNameFallBack")
+	public CompletableFuture<List<Employee>> getEmployeesByName(String name) {
 
 		logger.info("getEmployeesByName ::");
 
-		ResponseEntity<List> response = restTemplate.getForEntity(URL + "/name/" + name, List.class);
-		List<Employee> employees = response.getBody();
+		CompletableFuture<List<Employee>> future = CompletableFuture
+				.supplyAsync(() -> restTemplate.getForEntity(URL + "/name/" + name, List.class).getBody());
 
-		logger.info("getEmployees ::" + employees);
-		return employees;
+		return future;
 
 	}
 
-	public Employee addEmployeefallBack(Employee employee, Throwable t) {
-		
+	public CompletableFuture<Employee> addEmployeefallBack(Employee employee, Throwable t) {
+
 		logger.error("Inside circuit breaker addEmployeefallBack, cause - {}", t.toString());
 
-		return null;
+		return CompletableFuture.completedFuture(null);
 	}
 
-	public List<Employee> getEmployeesFallBack(Throwable t) {
-		
+	public CompletableFuture<List<Employee>> getEmployeesFallBack(Throwable t) {
+
 		logger.error("Inside getEmployeesFallBack, cause - {}", t.toString());
 
-
-		return null;
+		return CompletableFuture.completedFuture(null);
 
 	}
 
-	public List<Employee> getEmployeesByNameFallBack() {
+	public CompletableFuture<List<Employee>> getEmployeesByNameFallBack() {
 
 		logger.info("getEmployeesByNameFallBack ::");
 
-		return null;
+		return CompletableFuture.completedFuture(null);
 
 	}
 

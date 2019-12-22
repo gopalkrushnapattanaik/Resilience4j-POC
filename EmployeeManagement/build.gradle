@@ -50,11 +50,10 @@ dependencies {
 
     // monitoring
      compile "io.micrometer:micrometer-registry-prometheus:${resilience4jVersion}"
-     compile 'io.micrometer:micrometer-registry-new-relic:latest.release'
+     compile("io.vavr:vavr-jackson:0.10.0")
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:28.0-jre'
+  
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'

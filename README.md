@@ -21,3 +21,17 @@ If you need a different order, you can use the functional chaining style instead
 For more visit https://resilience4j.readme.io/docs
 
 
+In this repository
+
+* EmployeeService :- Service that exposes end-points for CRUD Operation on employees.
+
+* EmployeeManagement :- Consumer of EmployeeService , it uses Resiliency4J library and is a Reactive Client created using CompletableFuture of java.
+
+Both these above are separate gradle projects , need to build and run separately. The Configurations for Resilinecy4J Retry,BulkHead,CircuitBreaker,RateLimiter is present in application.yml file.
+
+This project also have monitoring enabled using Micrometer which exposes metric endpoints to Prometheus and Grafana Dashboard 
+
+Prometheus Server runs @ http://localhost:9090/
+Grafana runs @ http://localhost:3000/
+
+import the dashboard provided in the repository under Grafana folder , backed by prometheus datasource. This dashboard shows the Circuitbreaker States ,Bulk Head status
